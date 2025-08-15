@@ -648,7 +648,7 @@ class BeachesSeeder extends Seeder
                 'quality_results' => 'https://www.beaches.ie/find-a-beach/#/beach/IEWEBWC340_0000_0100',
                 'description' => 'Clare Island Beach extends from the old pier on the south side of the beach to the stony shoreline on the northern end adjacent to the Community Centre. There are submerged rocks at the northern end of the beach.',
                 'created_at' => now(),
-                'updated_at' => now(),            //65
+                'updated_at' => now(),  ],          //65
                 [
                     'name' => 'Dooega Beach, Achill Island',
                     'latitude' => 53.921291,
@@ -898,9 +898,9 @@ class BeachesSeeder extends Seeder
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]
-            ]
-        ];
+            ];
+          
 
-        DB::table('beaches')->insert($beaches);
+            DB::table('beaches')->insert($beaches);
+        }
     }
-}
