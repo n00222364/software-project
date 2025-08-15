@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
 {
+    // call my beach seeder via  php artisan db:seed
     $this->call([
         BeachesSeeder::class,
     ]);
