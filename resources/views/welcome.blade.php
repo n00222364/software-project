@@ -58,7 +58,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link text-white" href="/">Home</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="/">Beaches</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="/beaches">Beaches</a></li>
                     <li class="nav-item"><a class="nav-link text-white" href="/">Login</a></li>
                 </ul>
             </div>
@@ -74,7 +74,7 @@
             <p class="lead mx-auto mb-4" style="max-width: 500px; opacity: 0.9;">
                 Check water quality ratings for Ireland's beaches before you head out.
             </p>
-            <a href="" class="btn btn-coral btn-lg">Explore Beaches</a>
+            <a href="/beaches" class="btn btn-coral btn-lg">Explore Beaches</a>
         </div>
     </section>
 
