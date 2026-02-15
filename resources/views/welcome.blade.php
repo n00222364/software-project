@@ -57,9 +57,9 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link text-white" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="/">Dashboard</a></li>
                     <li class="nav-item"><a class="nav-link text-white" href="/beaches">Beaches</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="/">Login</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="/login">Login</a></li>
                 </ul>
             </div>
         </div>
