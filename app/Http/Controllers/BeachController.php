@@ -11,7 +11,10 @@ class BeachController extends Controller
      */
     public function index()
     {
-        //
+        // beach fetcher
+        $beaches = Beach::all();
+        // show the beaches
+        return view('beaches.index', compact('beaches')); 
     }
 
     /**
