@@ -1,0 +1,2 @@
+<!-- view all beaches -->
+ 
