@@ -2,66 +2,79 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Beach;
 use Illuminate\Http\Request;
 
 class BeachController extends Controller
+
+// the compact shortcut is the same as writing 
+// return view('beaches.index', ['beaches' => $beaches]);
+
 {
-    /**
-     * Display a listing of the resource.
-     */
+//   show all beaches
     public function index()
     {
         // beach fetcher
-        $beaches = Beach::all();
+       $beaches = Beach::all();
         // show the beaches
         return view('beaches.index', compact('beaches')); 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // show the create form
     public function create()
     {
-        //
+        return view('beaches.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // save a new beach to the database
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+            'quality_results' => 'required|url'
+        ]);
+
+        Beach::create($request->all());
+
+        return redirect()->route('beaches.index')->with('success', 'Beach added successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // show each beach
+    public function show(Beach $beach)
     {
-        //
+        return view ('beaches.show', compact('beach'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    //show the edit form
+    public function edit(Beach $beach)
     {
-        //
+        return view ('beaches.edit', compact('beach'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    // update the beaches
+    public function update(Request $request, Beach $beach)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+            'quality_results' => 'required|url'
+        ]);
+
+        Beach::update($request->all());
+
+        return redirect()->route('beaches.index')->with('success', 'Beach updated successfully!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    // delete any beach
+    public function destroy(Beach $beach)
     {
-        //
+        $beach->delete();
+
+        return redirect()->rotue('beaches.index')->with('success', 'Beach deleted successfully!');
     }
 }

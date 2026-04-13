@@ -6,5 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Beach extends Model
 {
-    //
+    protected $fillable = [
+
+        // these are the fields that can be created/updated
+        'name',
+        'description',
+        'longitude',
+        'latitude',
+        'quality_results'
+    ];
 }
