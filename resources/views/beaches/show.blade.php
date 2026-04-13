@@ -146,8 +146,23 @@
 <!-- chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- water quality chart with placeholder data -->
 <script>
+    // generate different placeholder data per beach using the beach ID as a seed
+    let beachId = {{ $beach->id }};
+    
+    // generate a random seed for each beach chart
+    function seededRandom(seed) {
+        let x = Math.sin(seed) * 10000;
+        return x - Math.floor(x);
+    }
+
+    let ecoliData = [];
+    let enteroData = [];
+    for (let i = 0; i < 8; i++) {
+        ecoliData.push(Math.floor(seededRandom(beachId * 100 + i) * 200));
+        enteroData.push(Math.floor(seededRandom(beachId * 200 + i) * 80));
+    }
+
     let ctx = document.getElementById('qualityChart').getContext('2d');
 
     new Chart(ctx, {
@@ -157,12 +172,12 @@
             datasets: [
                 {
                     label: 'E. coli (cfu/100ml)',
-                    data: [45, 82, 120, 65, 38, 95, 52, 70],
+                    data: ecoliData,
                     backgroundColor: '#1a6b8a'
                 },
                 {
                     label: 'Intestinal Enterococci (cfu/100ml)',
-                    data: [18, 35, 55, 28, 15, 40, 22, 30],
+                    data: enteroData,
                     backgroundColor: '#4db8d1'
                 }
             ]
