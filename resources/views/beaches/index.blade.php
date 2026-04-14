@@ -56,6 +56,16 @@
         </div>
     </section>
 
+    <!-- success alert -->
+    @if (session('success'))
+        <div class="container mt-4">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        </div>
+    @endif
+
     <!-- leaflet map -->
     <section class="container my-4">
         <div id="map"></div>

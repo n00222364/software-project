@@ -65,7 +65,8 @@ class BeachController extends Controller
             'quality_results' => 'required|url'
         ]);
 
-        Beach::update($request->all());
+        // update this specific beach, not all beaches
+        $beach->update($request->all());
 
         return redirect()->route('beaches.index')->with('success', 'Beach updated successfully!');
     }
@@ -75,6 +76,6 @@ class BeachController extends Controller
     {
         $beach->delete();
 
-        return redirect()->rotue('beaches.index')->with('success', 'Beach deleted successfully!');
+        return redirect()->route('beaches.index')->with('success', 'Beach deleted successfully!');
     }
 }

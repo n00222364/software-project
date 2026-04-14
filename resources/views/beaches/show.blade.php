@@ -98,11 +98,21 @@
         </div>
     </section>
 
-    <!-- link to EPA quality results -->
+    <!-- link to results + edit/delete-->
     <section class="container my-4 text-center">
         <a href="{{ $beach->quality_results }}" target="_blank" class="btn btn-outline-secondary">
             View on Beaches.ie
         </a>
+        <a href="{{ route('beaches.edit', $beach) }}" class="btn btn-outline-primary ms-2">
+            Edit Beach
+        </a>
+        <form action="{{ route('beaches.destroy', $beach) }}" method="POST" class="d-inline ms-2">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete this beach?')">
+                Delete Beach
+            </button>
+        </form>
     </section>
 
      <!--water quality chart -->
@@ -158,6 +168,7 @@
 
     let ecoliData = [];
     let enteroData = [];
+    
     for (let i = 0; i < 8; i++) {
         ecoliData.push(Math.floor(seededRandom(beachId * 100 + i) * 200));
         enteroData.push(Math.floor(seededRandom(beachId * 200 + i) * 80));
