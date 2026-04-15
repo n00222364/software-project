@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Beach;
 
 class User extends Authenticatable
 {
@@ -45,4 +46,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // let users save favourite beaches
+    public function favouriteBeaches()
+{
+    // a user can favourite many beaches
+    return $this->belongsToMany(Beach::class, 'favourites');
+}
 }

@@ -37,11 +37,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                
+
                 <!-- checks if a user is logged in and shows different links based on logged in status -->
                 <li class="nav-item"><a class="nav-link text-white" href="/">Home</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="/beaches">Beaches</a></li>
                 @auth
+                <li class="nav-item"><a class="nav-link text-white" href="/favourites">Favourites</a></li>
                     <li class="nav-item">
                         <form action="{{ route('logout') }}" method="POST" class="d-inline">
                             @csrf
@@ -112,8 +113,29 @@
         </div>
     </section>
 
+  
+        
     <!-- link to results + edit/delete-->
     <section class="container my-4 text-center">
+
+      <!-- let logged in users save their favourite beaches -->
+      @auth
+      <!-- checks if the current beach is in the users favourites, if yes show unfavourite, Else show favourite -->
+       <!-- contains() searches through the users favourites to check if the current beach id is there -->
+            @if (auth()->user()->favouriteBeaches->contains($beach->id))
+                <form action="{{ route('beaches.unfavourite', $beach) }}" method="POST" class="d-inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-warning">★ Unfavourite</button>
+                </form>
+            @else
+                <form action="{{ route('beaches.favourite', $beach) }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-warning">☆ Favourite</button>
+                </form>
+            @endif
+        @endauth
+        
         <a href="{{ $beach->quality_results }}" target="_blank" class="btn btn-outline-secondary">
             View on Beaches.ie
         </a>

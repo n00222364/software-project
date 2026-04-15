@@ -20,6 +20,9 @@ Route::get('/about', function () {
 
 // makes sure the user is logged in before accessing these routes, because a user must be logged in to have admin permissions to access CRUD.
 Route::middleware('auth')->group(function () {
+// favourites page
+ Route::get('/favourites', [BeachController::class, 'favourites'])->name('beaches.favourites');
+
 Route::get('/beaches/create', [BeachController::class, 'create'])->name('beaches.create');
 Route::post('/beaches', [BeachController::class, 'store'])->name('beaches.store');
 
@@ -35,6 +38,10 @@ Route::delete('/beaches/{beach}', [BeachController::class, 'destroy'])->name('be
 Route::get('/beaches', [BeachController::class, 'index'])->name('beaches.index');
 Route::get('/beaches/{beach}', [BeachController::class, 'show'])->name('beaches.show');
 });
+
+// favourites routes
+Route::post('/beaches/{beach}/favourite', [BeachController::class, 'favourite'])->name('beaches.favourite');
+Route::delete('/beaches/{beach}/unfavourite', [BeachController::class, 'unfavourite'])->name('beaches.unfavourite');
 
 // dashboard redirect (sends logged in users to home page)
 Route::get('/dashboard', function () {

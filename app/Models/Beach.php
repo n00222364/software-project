@@ -15,4 +15,11 @@ class Beach extends Model
         'latitude',
         'quality_results'
     ];
+
+    // check which user saved a beach
+    public function favouritedBy()
+{
+    // a beach can be favourited by many users
+    return $this->belongsToMany(User::class, 'favourites');
+}
 }

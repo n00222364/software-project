@@ -61,6 +61,7 @@
                 <li class="nav-item"><a class="nav-link text-white" href="/beaches">Beaches</a></li>
                 @auth
                     <li class="nav-item">
+                        <li class="nav-item"><a class="nav-link text-white" href="/favourites">Favourites</a></li>
                         <form action="{{ route('logout') }}" method="POST" class="d-inline">
                             @csrf
                             <button type="submit" class="nav-link text-white btn btn-link" style="text-decoration: none;">

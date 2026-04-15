@@ -16,7 +16,7 @@ class BeachController extends Controller
     {
 
         // no admin check as this page is for all users 
-        
+
         // beach fetcher
        $beaches = Beach::all();
         // show the beaches
@@ -105,5 +105,29 @@ class BeachController extends Controller
         $beach->delete();
 
         return redirect()->route('beaches.index')->with('success', 'Beach deleted successfully!');
+    }
+
+    // add a beach to favourites
+    public function favourite(Beach $beach)
+    {
+        // link a user to a beach 
+    auth()->user()->favouriteBeaches()->attach($beach->id);
+    return back()->with('success', 'Beach added to favourites!');
+    }
+
+    // remove a beach from favourites
+    public function unfavourite(Beach $beach)
+    {
+        // unlink a user to a beach
+        auth()->user()->favouriteBeaches()->detach($beach->id);
+        return back()->with('success', 'Beach removed from favourites.');
+    }
+
+    // show a users favourites
+    public function favourites()
+    {
+        // get all the beaches a user has saved and view them
+        $beaches = auth()->user()->favouriteBeaches;
+        return view('beaches.favourites', compact('beaches'));
     }
 }
