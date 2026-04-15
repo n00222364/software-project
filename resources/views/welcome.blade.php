@@ -44,23 +44,35 @@
     <!-- make body into a flexbox, arrange it vertically and make sure everything is all tall as 100% of the screen -->
     <body class="d-flex flex-column min-vh-100">
 
-    <nav class="navbar navbar-expand-md navbar-dark bg-navy">
-
+   <!-- navbar -->
+   <nav class="navbar navbar-expand-md navbar-dark bg-navy">
         <div class="container">
-
             <a class="navbar-brand fw-bold" href="/">
-                <i data-lucide="waves" style="width: 20px; height: 20px;"></i> SureShore</a>
-
-            <!-- dropdown toggler for small screens  -->
+                <i data-lucide="waves" style="width: 20px; height: 20px;"></i> SureShore
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link text-white" href="/">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="/beaches">Beaches</a></li>
+            <ul class="navbar-nav ms-auto">
+                
+                <!-- checks if a user is logged in and shows different links based on logged in status -->
+                <li class="nav-item"><a class="nav-link text-white" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="/beaches">Beaches</a></li>
+                @auth
+                    <li class="nav-item">
+                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                            @csrf
+                            <button type="submit" class="nav-link text-white btn btn-link" style="text-decoration: none;">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+                @else
                     <li class="nav-item"><a class="nav-link text-white" href="/login">Login</a></li>
-                </ul>
+                    <li class="nav-item"><a class="nav-link text-white" href="/register">Register</a></li>
+                @endauth
+            </ul>
             </div>
         </div>
     </nav>

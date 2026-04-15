@@ -36,11 +36,25 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link text-white" href="/">Home</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="/beaches">Beaches</a></li>
+            <ul class="navbar-nav ms-auto">
+                
+                <!-- checks if a user is logged in and shows different links based on logged in status -->
+                <li class="nav-item"><a class="nav-link text-white" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="/beaches">Beaches</a></li>
+                @auth
+                    <li class="nav-item">
+                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                            @csrf
+                            <button type="submit" class="nav-link text-white btn btn-link" style="text-decoration: none;">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+                @else
                     <li class="nav-item"><a class="nav-link text-white" href="/login">Login</a></li>
-                </ul>
+                    <li class="nav-item"><a class="nav-link text-white" href="/register">Register</a></li>
+                @endauth
+            </ul>
             </div>
         </div>
     </nav>
@@ -103,16 +117,22 @@
         <a href="{{ $beach->quality_results }}" target="_blank" class="btn btn-outline-secondary">
             View on Beaches.ie
         </a>
-        <a href="{{ route('beaches.edit', $beach) }}" class="btn btn-outline-primary ms-2">
-            Edit Beach
-        </a>
-        <form action="{{ route('beaches.destroy', $beach) }}" method="POST" class="d-inline ms-2">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete this beach?')">
-                Delete Beach
-            </button>
-        </form>
+        <!-- checks if a user has admin permissions to access edit/delete -->
+        @auth
+        @if (auth()->user()->role === 'admin')
+            <a href="{{ route('beaches.edit', $beach) }}" class="btn btn-outline-primary ms-2">
+                Edit Beach
+            </a>
+            <form action="{{ route('beaches.destroy', $beach) }}" method="POST" class="d-inline ms-2">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete this beach?')">
+                    Delete Beach
+                </button>
+            </form>
+        @endif
+    @endauth
+
     </section>
 
      <!--water quality chart -->

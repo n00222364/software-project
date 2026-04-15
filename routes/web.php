@@ -17,6 +17,9 @@ Route::get('/about', function () {
 
 // beach CRUD routes
 // beaches/create must come before beaches/{beach} otherwise laravel mistakes beaches/create for a beach id
+
+// makes sure the user is logged in before accessing these routes, because a user must be logged in to have admin permissions to access CRUD.
+Route::middleware('auth')->group(function () {
 Route::get('/beaches/create', [BeachController::class, 'create'])->name('beaches.create');
 Route::post('/beaches', [BeachController::class, 'store'])->name('beaches.store');
 
@@ -31,7 +34,7 @@ Route::delete('/beaches/{beach}', [BeachController::class, 'destroy'])->name('be
 // beach view routes
 Route::get('/beaches', [BeachController::class, 'index'])->name('beaches.index');
 Route::get('/beaches/{beach}', [BeachController::class, 'show'])->name('beaches.show');
-
+});
 
 // dashboard redirect (sends logged in users to home page)
 Route::get('/dashboard', function () {

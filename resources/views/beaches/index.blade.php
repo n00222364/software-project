@@ -29,7 +29,7 @@
 <!-- no white gap at footer -->
 <body class="d-flex flex-column min-vh-100">
 
-    <!--  navbar -->
+    <!-- navbar -->
     <nav class="navbar navbar-expand-md navbar-dark bg-navy">
         <div class="container">
             <a class="navbar-brand fw-bold" href="/">
@@ -39,11 +39,25 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link text-white" href="/">Home</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="/beaches">Beaches</a></li>
+            <ul class="navbar-nav ms-auto">
+                
+                <!-- checks if a user is logged in and shows different links based on logged in status -->
+                <li class="nav-item"><a class="nav-link text-white" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="/beaches">Beaches</a></li>
+                @auth
+                    <li class="nav-item">
+                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                            @csrf
+                            <button type="submit" class="nav-link text-white btn btn-link" style="text-decoration: none;">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+                @else
                     <li class="nav-item"><a class="nav-link text-white" href="/login">Login</a></li>
-                </ul>
+                    <li class="nav-item"><a class="nav-link text-white" href="/register">Register</a></li>
+                @endauth
+            </ul>
             </div>
         </div>
     </nav>
@@ -71,9 +85,19 @@
         <div id="map"></div>
     </section>
 
-    <!-- beach list table -->
-    <section class="container my-4">
-        <h2 class="text-navy mb-3">Beach List</h2>
+  <!-- beach list table -->
+  <section class="container my-4">
+       
+        <!-- heading and button on the same line -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="text-navy mb-0">Beach List</h2>
+            <!-- create button (just for admins) -->
+            @auth
+                @if (auth()->user()->role === 'admin')
+                    <a href="{{ route('beaches.create') }}" class="btn btn-success">+ Add Beach</a>
+                @endif
+            @endauth
+        </div>
 
         <div class="table-responsive">
             <table class="table table-hover">
