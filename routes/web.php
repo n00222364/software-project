@@ -9,12 +9,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// about
-Route::get('/about', function () {
-    return view('about');
-});
-
-
 // beach CRUD routes
 // beaches/create must come before beaches/{beach} otherwise laravel mistakes beaches/create for a beach id
 
