@@ -150,7 +150,7 @@
         @endauth
         
         <a href="{{ $beach->quality_results }}" target="_blank" class="btn btn-outline-secondary">
-            View on Beaches.ie
+            View official Beach data
         </a>
         <!-- checks if a user has admin permissions to access edit/delete -->
         @auth
