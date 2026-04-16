@@ -40,22 +40,48 @@ class BeachTest extends TestCase
         $response->assertStatus(200);
     }
 
+    /**
+     * @dataProvider beachDataProvider
+     */
+    // stress test creating beaches
     // test admins can create a beach
-    public function test_admin_can_create_beach(): void
+    public function test_admin_can_create_beaches($name, $description, $latitude, $longitude, $qualityResults): void
     {
         $admin = User::factory()->create(['role' => 'admin']);
         $this->actingAs($admin);
 
         $response = $this->post('/beaches', [
-            'name' => 'Test Beach',
-            'description' => 'A test beach description',
-            'latitude' => 53.256338,
-            'longitude' => -6.112193,
-            'quality_results' => 'https://www.beaches.ie/find-a-beach/#/beach/TEST1234',
+            'name' => $name,
+            'description' => $description,
+            'latitude' => $latitude,
+            'longitude' => $longitude,
+            'quality_results' => $qualityResults,
         ]);
 
-        $this->assertDatabaseHas('beaches', ['name' => 'Test Beach']);
         $response->assertRedirect(route('beaches.index'));
+
+         $this->assertDatabaseHas('beaches', [
+        'name' => $name,
+        'quality_results' => $qualityResults,
+        ]);
+    }
+
+    public static function beachDataProvider(): array
+    {
+    $beaches = [];
+
+            // Generate many beaches for stress testing beach creation
+            for ($i = 1; $i <= 1000; $i++) {
+                $beaches[] = [
+                    'Stress Beach ' . $i,
+                    'Stress test description for beach ' . $i,
+                    53.200000 + ($i / 1000),
+                    -6.100000 - ($i / 1000),
+                    'https://www.beaches.ie/find-a-beach/#/beach/STRESS' . $i,
+                ];
+            }
+
+        return $beaches;
     }
 
     // test an admin can update a beach
