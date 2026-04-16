@@ -21,7 +21,10 @@ class BeachFactory extends Factory
             'description' => $this->faker->paragraph(),
             'latitude'=>$this->faker->latitude(51.4, 55.4),
             'longitude' =>$this->faker->longitude(-10.5, 6.0),
-            'quality_results' => 'https://www.beaches.ie/find-a-beach/#/beach/TEST' . $this->faker->unique()->numberBetween(1000, 9999)
+            'quality_results' => 'https://www.beaches.ie/find-a-beach/#/beach/TEST' . $this->faker->unique()->numberBetween(1000, 9999),
+            'water_quality_status' => $this->faker->randomElement(['Excellent', 'Good', 'Sufficient', 'Poor']),
+            'e_coli' => $this->faker->numberBetween(10, 500),
+            'intestinal_enterococci' => $this->faker->numberBetween(5, 200),
         ];
     }
 }

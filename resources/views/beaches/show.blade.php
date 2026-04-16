@@ -79,26 +79,39 @@
 
             <!-- details card -->
             <div class="col-md-6">
-                <div class="card h-100 shadow-sm border-0">
-                    <div class="card-body">
-                        <h5 class="card-title text-navy mb-3">Beach Details</h5>
-                        <table class="table table-borderless mb-0">
-                            <tr>
-                                <td class="text-muted fw-bold" style="width: 130px;">Beach Name:</td>
-                                <td>{{ $beach->name }}</td>
-                            </tr>
-                            <tr>
-                                <td class="text-muted fw-bold">Latitude:</td>
-                                <td>{{ $beach->latitude }}</td>
-                            </tr>
-                            <tr>
-                                <td class="text-muted fw-bold">Longitude:</td>
-                                <td>{{ $beach->longitude }}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
+    <div class="card h-100 shadow-sm border-0">
+        <div class="card-body">
+            <h5 class="card-title text-navy mb-3">Beach Details</h5>
+            <table class="table table-borderless mb-0">
+                <tr>
+                    <td class="text-muted fw-bold" style="width: 130px;">Beach Name:</td>
+                    <td>{{ $beach->name }}</td>
+                </tr>
+                <tr>
+                    <td class="text-muted fw-bold">Latitude:</td>
+                    <td>{{ $beach->latitude }}</td>
+                </tr>
+                <tr>
+                    <td class="text-muted fw-bold">Longitude:</td>
+                    <td>{{ $beach->longitude }}</td>
+                </tr>
+                <tr>
+                    <td class="text-muted fw-bold">Water Quality:</td>
+                    <td>{{ $beach->water_quality_status }}</td>
+                </tr>
+                <tr>
+                    <td class="text-muted fw-bold">E. coli:</td>
+                    <td>{{ $beach->e_coli }} cfu/100ml</td>
+                </tr>
+                <tr>
+                    <td class="text-muted fw-bold">Intestinal Enterococci:</td>
+                    <td>{{ $beach->intestinal_enterococci }} cfu/100ml</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
 
             <!-- description card -->
             <div class="col-md-6">
@@ -199,37 +212,54 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-    // generate different placeholder data per beach using the beach ID as a seed
-    let beachId = {{ $beach->id }};
-    
-    // generate a random seed for each beach chart
-    function seededRandom(seed) {
-        let x = Math.sin(seed) * 10000;
-        return x - Math.floor(x);
-    }
+    // get the stored ecoli and enterecoli reading from the db
+    let baseEcoli = {{ $beach->e_coli ?? 0 }};
+    let baseEntero = {{ $beach->intestinal_enterococci ?? 0 }};
 
-    let ecoliData = [];
-    let enteroData = [];
-    
-    for (let i = 0; i < 8; i++) {
-        ecoliData.push(Math.floor(seededRandom(beachId * 100 + i) * 200));
-        enteroData.push(Math.floor(seededRandom(beachId * 200 + i) * 80));
-    }
+    let labels = ['Jun 1', 'Jun 15', 'Jul 1', 'Jul 15', 'Aug 1', 'Aug 15', 'Sep 1', 'Sep 15'];
+
+    // make seasonal readings based on the stored bacteria values generated from seeder
+    // use those as pretend readings
+    let ecoliData = [
+    // Math.max stops value from going below 0, to make reading make sense as a negative bacteria reading makes no sense
+    Math.max(5, baseEcoli - 40),
+    Math.max(5, baseEcoli - 15),
+    baseEcoli + 10,
+    baseEcoli + 35,
+    Math.max(5, baseEcoli - 5),
+    baseEcoli + 25,
+    Math.max(5, baseEcoli - 30),
+    baseEcoli + 15
+    ];
+
+    // different plus/minus values to create differing bars on the bar chart
+    let enteroData = [
+    Math.max(5, baseEntero - 20),
+    Math.max(5, baseEntero - 8),
+    baseEntero + 5,
+    baseEntero + 18,
+    Math.max(5, baseEntero - 3),
+    baseEntero + 12,
+    Math.max(5, baseEntero - 15),
+    baseEntero + 7
+    ];
 
     let ctx = document.getElementById('qualityChart').getContext('2d');
 
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Jun 1', 'Jun 15', 'Jul 1', 'Jul 15', 'Aug 1', 'Aug 15', 'Sep 1', 'Sep 15'],
+            labels: labels,
             datasets: [
                 {
                     label: 'E. coli (cfu/100ml)',
+                    // bring in the ecoli data we made with the Math.max func
                     data: ecoliData,
                     backgroundColor: '#1a6b8a'
                 },
                 {
                     label: 'Intestinal Enterococci (cfu/100ml)',
+                    // bring in the entero data we made with the Math.max func
                     data: enteroData,
                     backgroundColor: '#4db8d1'
                 }

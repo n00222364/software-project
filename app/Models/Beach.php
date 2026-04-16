@@ -15,7 +15,10 @@ class Beach extends Model
         'description',
         'longitude',
         'latitude',
-        'quality_results'
+        'quality_results',
+        'water_quality_status',
+        'e_coli',
+        'intestinal_enterococci',
     ];
 
     // check which user saved a beach

@@ -19,9 +19,9 @@ class DatabaseSeeder extends Seeder
         BeachesSeeder::class,
     ]);
 
-    $users = User::factory(500)->create();
+    $users = User::factory(300)->create();
 
-    $beaches = Beach::factory(1000)->create();
+    $beaches = Beach::factory(200)->create();
 
 
     // loop through each user, pick a random number of beaches, 'pluck' the id of those beaches and attach it to the favourites table

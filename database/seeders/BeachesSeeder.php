@@ -900,6 +900,20 @@ class BeachesSeeder extends Seeder
                 ]
             ];
           
+            // list of possible quality ratings
+            $statuses = ['Excellent', 'Good', 'Sufficient', 'Poor'];
+
+            // loop through each beach in the $beaches array instead of manually adding this to each one
+            // saves my sanity
+            $beaches = array_map(function ($beach) use ($statuses) {
+                // give each beach a random quality status, e_coli and enterococci value
+                $beach['water_quality_status'] = $statuses[array_rand($statuses)];
+                $beach['e_coli'] = rand(10, 180);
+                $beach['intestinal_enterococci'] = rand(5, 130);
+
+                // send the updated beaches to the db
+                return $beach;
+            }, $beaches);
 
             DB::table('beaches')->insert($beaches);
         }
