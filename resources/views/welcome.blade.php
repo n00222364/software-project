@@ -57,8 +57,6 @@
             <ul class="navbar-nav ms-auto">
                 
                 <!-- checks if a user is logged in and shows different links based on logged in status -->
-                <li class="nav-item"><a class="nav-link text-white" href="/">Home</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="/beaches">Beaches</a></li>
                 @auth
                     <li class="nav-item">
                         <li class="nav-item"><a class="nav-link text-white" href="/favourites">Favourites</a></li>
@@ -131,29 +129,31 @@
     <section class="container my-5">
         <h2 class="text-navy text-center mb-4">Recent Results</h2>
         <div class="mx-auto" style="max-width: 600px;">
-            <ul class="list-group">
+        <ul class="list-group">
+            @foreach ($recentBeaches as $beach)
+                @php
+                    $badgeClass = match($beach->water_quality_status) {
+                        'Excellent' => 'bg-success',
+                        'Good' => 'bg-primary',
+                        'Sufficient' => 'bg-warning text-dark',
+                        'Poor' => 'bg-danger',
+                        default => 'bg-secondary',
+                    };
+                @endphp
+
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div>
-                        <strong>Curracloe Beach</strong><br>
-                        <small class="text-muted">Wexford</small>
+                        <a href="{{ route('beaches.show', $beach) }}" class="text-decoration-none text-dark">
+                            <strong>{{ $beach->name }}</strong>
+                        </a><br>
+                        <small class="text-muted">{{ $beach->description }}</small>
                     </div>
-                    <span class="badge bg-success rounded-pill px-3 py-2">Excellent</span>
+                    <span class="badge {{ $badgeClass }} rounded-pill px-3 py-2">
+                        {{ $beach->water_quality_status }}
+                    </span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div>
-                        <strong>Salthill Beach</strong><br>
-                        <small class="text-muted">Galway</small>
-                    </div>
-                    <span class="badge bg-primary rounded-pill px-3 py-2">Good</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div>
-                        <strong>Dollymount Strand</strong><br>
-                        <small class="text-muted">Dublin</small>
-                    </div>
-                    <span class="badge bg-warning text-dark rounded-pill px-3 py-2">Fair</span>
-                </li>
-            </ul>
+            @endforeach
+        </ul>
         </div>
     </section>
         <!-- bootstrap script for modals -->

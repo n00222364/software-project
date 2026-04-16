@@ -43,7 +43,6 @@
                 
                 <!-- checks if a user is logged in and shows different links based on logged in status -->
                 <li class="nav-item"><a class="nav-link text-white" href="/">Home</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="/beaches">Beaches</a></li>
                 @auth
                 <li class="nav-item"><a class="nav-link text-white" href="/favourites">Favourites</a></li>
                     <li class="nav-item">

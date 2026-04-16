@@ -1,12 +1,16 @@
 <?php
 
+use App\Models\Beach;
 use App\Http\Controllers\BeachController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 // home
 Route::get('/', function () {
-    return view('welcome');
+    // show 3 beaches on the welcome page
+    $recentBeaches = Beach::latest()->take(3)->get();
+
+    return view('welcome', compact('recentBeaches'));
 });
 
 // beach CRUD routes

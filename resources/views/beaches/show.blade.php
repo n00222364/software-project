@@ -40,7 +40,6 @@
 
                 <!-- checks if a user is logged in and shows different links based on logged in status -->
                 <li class="nav-item"><a class="nav-link text-white" href="/">Home</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="/beaches">Beaches</a></li>
                 @auth
                 <li class="nav-item"><a class="nav-link text-white" href="/favourites">Favourites</a></li>
                     <li class="nav-item">
@@ -97,7 +96,22 @@
                 </tr>
                 <tr>
                     <td class="text-muted fw-bold">Water Quality:</td>
-                    <td>{{ $beach->water_quality_status }}</td>
+                    <!-- give colour to the badges to show levels better -->
+                    <td>
+                        @php
+                            $badgeClass = match($beach->water_quality_status) {
+                                'Excellent' => 'bg-success',
+                                'Good' => 'bg-primary',
+                                'Sufficient' => 'bg-warning text-dark',
+                                'Poor' => 'bg-danger',
+                                default => 'bg-secondary',
+                            };
+                        @endphp
+
+                        <span class="badge {{ $badgeClass }}">
+                            {{ $beach->water_quality_status }}
+                        </span>
+                    </td>
                 </tr>
                 <tr>
                     <td class="text-muted fw-bold">E. coli:</td>
@@ -139,7 +153,7 @@
                 <form action="{{ route('beaches.unfavourite', $beach) }}" method="POST" class="d-inline">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-warning">★ Unfavourite</button>
+                    <button type="submit" class="btn btn-warning text-dark fw-semibold">★ Unfavourite</button>
                 </form>
             @else
                 <form action="{{ route('beaches.favourite', $beach) }}" method="POST" class="d-inline">
