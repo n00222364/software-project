@@ -16,22 +16,27 @@ class RegistrationTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_new_users_can_register_as_user(): void
+
+        /**
+     * @dataProvider userDataProvider
+     */
+    // what we are stress testing
+    public function test_new_users_can_register($name, $email, $role, $password): void
     {
         $response = $this->post('/register', [
-            'name' => 'Test User',
-            'email' => 'user@example.com',
-            'role' => 'user',
-            'password' => 'password',
-            'password_confirmation' => 'password',
+            'name' => $name,
+            'email' => $email,
+            'role' => $role,
+            'password' => $password,
+            'password_confirmation' => $password,
         ]);
 
         $this->assertAuthenticated();
         $response->assertRedirect('/');
 
         $this->assertDatabaseHas('users', [
-            'email' => 'user@example.com',
-            'role' => 'user',
+            'email' => $email,
+            'role' => $role,
         ]);
     }
 
@@ -53,5 +58,22 @@ class RegistrationTest extends TestCase
             'email' => 'admin@example.com',
             'role' => 'admin',
         ]);
+    }
+
+    public static function userDataProvider(): array
+    {
+        $users = [];
+
+        // stress test registration ammount
+        for ($i = 1; $i <= 5000; $i++) {
+            $users[] = [
+                'Test User ' . $i,
+                'test' . $i . '@example.com',
+                $i % 2 === 0 ? 'admin' : 'user',
+                'password',
+            ];
+        }
+
+        return $users;
     }
 }
