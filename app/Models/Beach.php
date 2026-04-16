@@ -1,13 +1,15 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Beach extends Model
 {
-    protected $fillable = [
+      // automated test
+      use HasFactory;
 
+    protected $fillable = [
         // these are the fields that can be created/updated
         'name',
         'description',

@@ -29,7 +29,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         // redirect to homepage once logged in
-        return redirect()->intended(route('/'));
+        return redirect()->intended('/');
     }
 
     /**

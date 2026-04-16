@@ -28,14 +28,16 @@ Route::put('/beaches/{beach}', [BeachController::class, 'update'])->name('beache
 // delete the beach
 Route::delete('/beaches/{beach}', [BeachController::class, 'destroy'])->name('beaches.destroy');
 
-// beach view routes
-Route::get('/beaches', [BeachController::class, 'index'])->name('beaches.index');
-Route::get('/beaches/{beach}', [BeachController::class, 'show'])->name('beaches.show');
-});
-
 // favourites routes
 Route::post('/beaches/{beach}/favourite', [BeachController::class, 'favourite'])->name('beaches.favourite');
 Route::delete('/beaches/{beach}/unfavourite', [BeachController::class, 'unfavourite'])->name('beaches.unfavourite');
+});
+
+// beach view routes, outside middleware so anybody can view these, no account needed
+Route::get('/beaches', [BeachController::class, 'index'])->name('beaches.index');
+Route::get('/beaches/{beach}', [BeachController::class, 'show'])->name('beaches.show');
+
+
 
 // dashboard redirect (sends logged in users to home page)
 Route::get('/dashboard', function () {
